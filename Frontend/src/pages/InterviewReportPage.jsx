@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useInterview } from "../Features/Interview/hooks/useInterview";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const InterviewReportPage = () => {
@@ -17,8 +16,6 @@ const InterviewReportPage = () => {
         } catch (err) {
             console.error(err);
         }
-
-
     };
 
     useEffect(() => {
@@ -29,8 +26,8 @@ const InterviewReportPage = () => {
 
     if (!data) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-[#020617] text-white">
-                <p className="text-orange-400">Loading report...</p>
+            <div className="min-h-screen flex items-center justify-center bg-[#eaf3fb] text-gray-700">
+                <p>Loading report...</p>
             </div>
         );
     }
@@ -46,14 +43,14 @@ const InterviewReportPage = () => {
             activeTab === "technical"
                 ? data.technicalQuestions
                 : activeTab === "behavioral"
-                    ? data.behavioralQuestions
-                    : [];
+                ? data.behavioralQuestions
+                : [];
 
         return list.map((q, i) => (
             <div
                 key={i}
                 onClick={() => setSelectedQuestion(q)}
-                className="p-4 mb-3 rounded-xl cursor-pointer bg-[#020617] border border-white/10 hover:border-orange-400 transition"
+                className="p-4 mb-3 rounded-xl cursor-pointer bg-white border border-gray-200 hover:border-blue-500 hover:shadow transition"
             >
                 {q.question}
             </div>
@@ -61,17 +58,18 @@ const InterviewReportPage = () => {
     };
 
     return (
-        <div className="min-h-screen flex bg-[#020617] text-white relative overflow-hidden mt-20">
+        <div className="min-h-screen flex bg-[#eaf3fb] text-gray-800 relative overflow-hidden pt-24">
 
-            {/* 🔥 ORANGE AI BACKGROUND */}
-            <div className="absolute inset-0">
-                <div className="absolute w-125 h-125 bg-orange-500/20 blur-[120px] -top-[-100px] -left-[-100px]"></div>
-                <div className="absolute w-100 h-100 bg-orange-400/10 blur-[100px] -bottom-[-100px] -right-[-100px]"></div>
-            </div>
+            {/* 🌤️ BACKGROUND */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#eaf3fb] to-[#d8e8f8]"></div>
+
+            {/* ☁️ BLOBS */}
+            <div className="absolute w-[300px] h-[300px] bg-white/40 blur-3xl rounded-full top-10 left-10"></div>
+            <div className="absolute w-[250px] h-[250px] bg-blue-200/40 blur-3xl rounded-full bottom-10 right-10"></div>
 
             {/* LEFT SIDEBAR */}
-            <div className="w-1/5 p-6 border-r border-white/10 bg-white/5 backdrop-blur-md z-10">
-                <h2 className="text-xl font-bold mb-6 text-orange-400">
+            <div className="w-1/5 p-6 border-r border-gray-200 bg-white/60 backdrop-blur-md z-10">
+                <h2 className="text-xl font-bold mb-6 text-blue-600">
                     Sections
                 </h2>
 
@@ -83,21 +81,24 @@ const InterviewReportPage = () => {
                                 setActiveTab(tab.id);
                                 setSelectedQuestion(null);
                             }}
-                            className={`p-3 rounded-lg text-left ${activeTab === tab.id
-                                ? "bg-orange-500 text-black"
-                                : "bg-[#0f172a] hover:bg-[#1e293b]"
-                                }`}
+                            className={`p-3 rounded-lg text-left transition ${
+                                activeTab === tab.id
+                                    ? "bg-blue-600 text-white"
+                                    : "bg-gray-100 hover:bg-gray-200"
+                            }`}
                         >
                             {tab.label}
                         </button>
                     ))}
+
                     <button
                         onClick={handleDownload}
                         disabled={loading}
-                        className={`mt-4 w-full text-left p-3 rounded-lg ${loading
-                            ? "bg-gray-500 cursor-not-allowed"
-                            : "bg-green-400 hover:bg-green-500 text-black"
-                            }`}
+                        className={`mt-4 w-full text-left p-3 rounded-lg transition ${
+                            loading
+                                ? "bg-gray-300 cursor-not-allowed"
+                                : "bg-green-500 hover:bg-green-600 text-white"
+                        }`}
                     >
                         {loading ? "Generating PDF..." : "Download Resume PDF"}
                     </button>
@@ -107,23 +108,22 @@ const InterviewReportPage = () => {
             {/* MIDDLE CONTENT */}
             <div className="w-3/5 p-8 z-10 overflow-y-auto">
 
-                {/* ROADMAP */}
                 {activeTab === "roadmap" ? (
                     <div>
-                        <h2 className="text-3xl font-bold mb-6 text-orange-400">
+                        <h2 className="text-3xl font-bold mb-6 text-blue-600">
                             Preparation Plan
                         </h2>
 
                         {data.preparationPlan.map((day, i) => (
                             <div
                                 key={i}
-                                className="mb-4 p-5 rounded-xl bg-[#020617] border border-white/10"
+                                className="mb-4 p-5 rounded-xl bg-white border border-gray-200 shadow-sm"
                             >
-                                <p className="text-orange-400 font-semibold">
+                                <p className="text-blue-600 font-semibold">
                                     Day {day.days} — {day.focus}
                                 </p>
 
-                                <ul className="mt-3 list-disc list-inside text-gray-300 text-sm">
+                                <ul className="mt-3 list-disc list-inside text-gray-600 text-sm">
                                     {day.tasks.map((task, idx) => (
                                         <li key={idx}>{task}</li>
                                     ))}
@@ -134,16 +134,16 @@ const InterviewReportPage = () => {
                 ) : (
                     <div className="grid grid-cols-2 gap-6">
 
-                        {/* QUESTION LIST */}
+                        {/* QUESTIONS */}
                         <div>
-                            <h2 className="text-xl mb-4 text-orange-400">
+                            <h2 className="text-xl mb-4 text-blue-600">
                                 Questions
                             </h2>
                             {renderList()}
                         </div>
 
-                        {/* DETAILS PANEL */}
-                        <div className="bg-[#0f172a] p-5 rounded-xl border border-orange-500/20">
+                        {/* DETAILS */}
+                        <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
 
                             {selectedQuestion ? (
                                 <>
@@ -151,49 +151,48 @@ const InterviewReportPage = () => {
                                         {selectedQuestion.question}
                                     </h3>
 
-                                    <p className="text-sm text-gray-400 mb-3">
+                                    <p className="text-sm text-gray-500 mb-3">
                                         💡 {selectedQuestion.intention}
                                     </p>
 
-                                    <p className="text-sm text-green-400">
+                                    <p className="text-sm text-green-600">
                                         ✅ {selectedQuestion.answer}
                                     </p>
                                 </>
                             ) : (
-                                <p className="text-gray-500 text-sm">
+                                <p className="text-gray-400 text-sm">
                                     Select a question to view details
                                 </p>
                             )}
-
                         </div>
                     </div>
                 )}
             </div>
 
             {/* RIGHT SIDEBAR */}
-            <div className="w-1/5 p-6 border-l border-white/10 bg-white/5 backdrop-blur-md z-10">
-                <h2 className="text-xl font-bold mb-6 text-orange-400">
+            <div className="w-1/5 p-6 border-l border-gray-200 bg-white/60 backdrop-blur-md z-10">
+                <h2 className="text-xl font-bold mb-6 text-blue-600">
                     AI Insights
                 </h2>
 
-                {/* MATCH SCORE */}
-                <div className="mb-6 p-5 rounded-xl bg-[#0f172a] border border-orange-500/20">
-                    <p className="text-sm text-gray-400">Match Score</p>
-                    <p className="text-4xl font-bold text-orange-400">
+                {/* SCORE */}
+                <div className="mb-6 p-5 rounded-xl bg-white border border-gray-200 shadow-sm">
+                    <p className="text-sm text-gray-500">Match Score</p>
+                    <p className="text-4xl font-bold text-blue-600">
                         {data.matchScore}%
                     </p>
 
-                    <div className="mt-3 h-2 bg-gray-700 rounded">
+                    <div className="mt-3 h-2 bg-gray-200 rounded">
                         <div
-                            className="h-2 bg-orange-500 rounded"
+                            className="h-2 bg-blue-600 rounded"
                             style={{ width: `${data.matchScore}%` }}
                         ></div>
                     </div>
                 </div>
 
-                {/* SKILL GAPS */}
-                <div className="p-5 rounded-xl bg-[#0f172a] border border-white/10">
-                    <h3 className="text-sm text-gray-400 mb-3">Skill Gaps</h3>
+                {/* SKILLS */}
+                <div className="p-5 rounded-xl bg-white border border-gray-200 shadow-sm">
+                    <h3 className="text-sm text-gray-500 mb-3">Skill Gaps</h3>
 
                     {data.skillGaps.map((s, i) => (
                         <div key={i} className="flex justify-between mb-2 text-sm">
@@ -201,10 +200,10 @@ const InterviewReportPage = () => {
                             <span
                                 className={
                                     s.severity === "high"
-                                        ? "text-red-400"
+                                        ? "text-red-500"
                                         : s.severity === "medium"
-                                            ? "text-yellow-400"
-                                            : "text-green-400"
+                                        ? "text-yellow-500"
+                                        : "text-green-500"
                                 }
                             >
                                 {s.severity}

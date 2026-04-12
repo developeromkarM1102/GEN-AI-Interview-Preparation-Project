@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink } from "react-router-dom";
 import { Brain, Menu, X } from 'lucide-react';
+import { motion } from "framer-motion";
 
 const Navbar = () => {
 
@@ -9,13 +10,31 @@ const Navbar = () => {
   return (
     <div className='fixed top-0 left-0 w-full z-50 bg-black shadow-md'>
 
-      <div className='flex justify-between items-center px-6 py-4'>
+      <motion.div initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.7 }}
+        className='flex justify-between items-center px-6 py-4'>
 
         {/* LOGO */}
-        <h1 className='text-white font-bold tracking-wide flex items-center gap-2'>
+        <motion.h1 initial={{ opacity: 0, scale: 0.9 }}
+          animate={{
+            opacity: 1,
+            scale: [1, 1.05, 1],
+          }}
+          transition={{
+            opacity: { duration: 0.6, ease: "easeOut" },
+            scale: {
+              duration: 2,
+              ease: "easeInOut",
+              repeat: Infinity,
+              repeatType: "loop",
+              repeatDelay: 0.5,
+            },
+          }}
+          className='text-white font-bold tracking-wide flex items-center gap-2'>
           <Brain className='text-orange-400' size={30} />
           GEN-AI Prep
-        </h1>
+        </motion.h1>
 
         {/* DESKTOP MENU */}
         <div className='hidden md:flex items-center gap-6 text-sm font-medium'>
@@ -40,7 +59,7 @@ const Navbar = () => {
             {isOpen ? <X className='text-white' /> : <Menu className='text-white' />}
           </button>
         </div>
-      </div>
+      </motion.div>
 
       {/* MOBILE MENU */}
       {isOpen && (
