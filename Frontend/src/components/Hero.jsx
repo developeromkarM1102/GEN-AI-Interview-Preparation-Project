@@ -69,30 +69,33 @@ const Hero = () => {
 
         {/* CTA */}
         <motion.div
-          initial={{ opacity: 0, z: 20 }}
-          animate={{ opacity: 5, z: 0 , scale: [0.95, 1.05, 1]}}
-          transition={{ duration: 2, delay: 2 , tap: { scale: 0.95 } }}
-          className="mt-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0, scale: [0.95, 1.05, 1] }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="mt-8 flex flex-col items-center"
         >
-          <Link
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center">
+    
+            <Link
             to="/ai-interviews-prep"
-            className="bg-orange-500 text-white px-5 py-4  rounded-xl text-lg font-medium shadow-md hover:scale-105 transition active:scale-95"
-          >
+            className="w-full sm:w-auto text-center bg-orange-500 text-white px-5 py-4 rounded-xl text-base sm:text-lg font-medium shadow-md hover:scale-105 transition active:scale-95"
+            >
             Generate My Plan
-          </Link>
+            </Link>
 
-          <Link
+            <Link
             to="/about"
-            className="ml-4 text-white px-6 py-4 rounded-xl text-lg font-medium border border-white hover:bg-white hover:text-orange-500 transition"
-          >
+            className="w-full sm:w-auto text-center text-white px-6 py-4 rounded-xl text-base sm:text-lg font-medium border border-white hover:bg-white hover:text-orange-500 transition"
+             >
             Learn more
-          </Link>
+            </Link>
 
+            </div>
 
-          <p className="text-sm text-gray-300 mt-5">
-            No commitment • Free trial available
-          </p>
-        </motion.div>
+            <p className="text-sm text-gray-300 mt-5 text-center">
+              No commitment • Free trial available
+            </p>
+        </motion.div>     
       </div>
 
     <div className="absolute bottom-0 left-0 w-full h-40 bg-linear-to-b from-transparent to-[#d8e8f8] z-10"></div>
