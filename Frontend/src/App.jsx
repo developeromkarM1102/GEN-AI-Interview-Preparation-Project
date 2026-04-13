@@ -2,6 +2,8 @@ import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './Features/Auth/auth.context'
 import { InterviewProvider } from './Features/Interview/interview.context'
+import EntryLoading from './components/EntryLoading'
+import { useState, useEffect } from 'react'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Navbar from './components/Navbar'
@@ -16,6 +18,27 @@ import Protected from './Features/Auth/Protected'
 import Loading from './components/Loading'
 
 const App = () => {
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const handleLoad = () => {
+      setTimeout(() => setLoading(false), 3000); 
+    };
+
+    if (document.readyState === "complete") {
+      handleLoad();
+    } else {
+      window.addEventListener("load", handleLoad);
+    }
+
+    return () => window.removeEventListener("load", handleLoad);
+  }, []);
+
+  if (loading) {
+    return <EntryLoading />;
+  }
+
   return (
     <div className='bg-black'>
       <AuthProvider>

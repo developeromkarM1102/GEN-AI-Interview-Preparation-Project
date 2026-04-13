@@ -7,7 +7,7 @@ import heroImg from "../assets/hero.jpg";
 
 const Hero = () => {
   return (
-    <div className="relative overflow-hidden  min-h-screen pt-24">
+    <div className="relative overflow-hidden flex min-h-screen pt-24">
 
       {/* 🖼️ BACKGROUND IMAGE */}
       <div className="absolute inset-0 z-0">
@@ -26,7 +26,7 @@ const Hero = () => {
       <div className="absolute bottom-0 right-0 w-100 h-100 bg-blue-200/40 blur-3xl rounded-full z-10"></div>
 
       {/* 🧠 MAIN CONTENT */}
-      <div className="relative z-20 text-center max-w-4xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 mt-6 sm:mt-10 md:mt-14">
+      <div className="relative z-20 text-center justify-center max-w-4xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 mt-6 sm:mt-15 md:mt-14">
 
         {/* BADGE */}
         <motion.div
@@ -71,14 +71,14 @@ const Hero = () => {
         <motion.div
           initial={{ opacity: 0, z: 20 }}
           animate={{ opacity: 5, z: 0 , scale: [0.95, 1.05, 1]}}
-          transition={{ duration: 2, delay: 2 }}
+          transition={{ duration: 2, delay: 2 , tap: { scale: 0.95 } }}
           className="mt-8"
         >
           <Link
             to="/ai-interviews-prep"
-            className="bg-orange-500 text-white px-8 py-4 rounded-xl text-lg font-medium shadow-md hover:scale-105 transition active:scale-95"
+            className="bg-orange-500 text-white px-5 py-4  rounded-xl text-lg font-medium shadow-md hover:scale-105 transition active:scale-95"
           >
-            Start for free
+            Generate My Plan
           </Link>
 
           <Link
