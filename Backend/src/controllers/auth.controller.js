@@ -34,7 +34,8 @@ async function UserRegister(req, res) {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false // true in production (HTTPS)
+            secure: true,
+            sameSite: "None"
         });
 
         res.status(201).json({
@@ -87,7 +88,8 @@ async function UserLogin(req, res) {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false
+            secure: true,
+            sameSite: "None"
         });
 
         res.status(200).json({
