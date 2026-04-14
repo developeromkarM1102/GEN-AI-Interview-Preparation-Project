@@ -16,6 +16,8 @@ const Register = () => {
     const handleSubmit = async (e) =>{
       e.preventDefault()
       await handleRegister({ username , email , password})
+      alert("Registration successful!")
+      navigate("/")
   
     }
     if(loading){
