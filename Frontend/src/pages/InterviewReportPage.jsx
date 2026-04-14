@@ -58,161 +58,151 @@ const InterviewReportPage = () => {
     };
 
     return (
-        <div className="min-h-screen flex bg-[#eaf3fb] text-gray-800 relative overflow-hidden pt-24">
+        <div className="min-h-screen flex flex-col lg:flex-row bg-[#eaf3fb] text-gray-800 relative overflow-hidden pt-24">
+            
+        <div className="absolute inset-0 bg-gradient-to-b from-[#eaf3fb] to-[#d8e8f8]"></div>
 
-            {/* 🌤️ BACKGROUND */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#eaf3fb] to-[#d8e8f8]"></div>
+        <div className="absolute w-[200px] h-[200px] lg:w-[300px] lg:h-[300px] bg-white/40 blur-3xl rounded-full top-10 left-10"></div>
+        <div className="absolute w-[180px] h-[180px] lg:w-[250px] lg:h-[250px] bg-blue-200/40 blur-3xl rounded-full bottom-10 right-10"></div>
 
-            {/* ☁️ BLOBS */}
-            <div className="absolute w-[300px] h-[300px] bg-white/40 blur-3xl rounded-full top-10 left-10"></div>
-            <div className="absolute w-[250px] h-[250px] bg-blue-200/40 blur-3xl rounded-full bottom-10 right-10"></div>
+        <div className="w-full lg:w-1/5 p-4 lg:p-6 border-b lg:border-b-0 lg:border-r border-gray-200 bg-white/60 backdrop-blur-md z-10">
+            <h2 className="text-lg lg:text-xl font-bold mb-4 lg:mb-6 text-blue-600">
+                Sections
+            </h2>
 
-            {/* LEFT SIDEBAR */}
-            <div className="w-1/5 p-6 border-r border-gray-200 bg-white/60 backdrop-blur-md z-10">
-                <h2 className="text-xl font-bold mb-6 text-blue-600">
-                    Sections
-                </h2>
-
-                <div className="flex flex-col gap-3">
-                    {tabs.map((tab) => (
-                        <button
-                            key={tab.id}
-                            onClick={() => {
-                                setActiveTab(tab.id);
-                                setSelectedQuestion(null);
-                            }}
-                            className={`p-3 rounded-lg text-left transition ${
-                                activeTab === tab.id
-                                    ? "bg-blue-600 text-white"
-                                    : "bg-gray-100 hover:bg-gray-200"
-                            }`}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
-
+            <div className="flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-visible">
+                {tabs.map((tab) => (
                     <button
-                        onClick={handleDownload}
-                        disabled={loading}
-                        className={`mt-4 w-full text-left p-3 rounded-lg transition ${
-                            loading
-                                ? "bg-gray-300 cursor-not-allowed"
-                                : "bg-green-500 hover:bg-green-600 text-white"
+                        key={tab.id}
+                        onClick={() => {
+                            setActiveTab(tab.id);
+                            setSelectedQuestion(null);
+                        }}
+                        className={`p-2 lg:p-3 rounded-lg text-left whitespace-nowrap transition ${
+                            activeTab === tab.id
+                                ? "bg-blue-600 text-white"
+                                : "bg-gray-100 hover:bg-gray-200"
                         }`}
                     >
-                        {loading ? "Generating PDF..." : "Download Resume PDF"}
+                        {tab.label}
                     </button>
-                </div>
+                ))}
+
+                <button
+                    onClick={handleDownload}
+                    disabled={loading}
+                    className={`p-2 lg:p-3 rounded-lg transition whitespace-nowrap ${
+                        loading
+                            ? "bg-gray-300 cursor-not-allowed"
+                            : "bg-green-500 hover:bg-green-600 text-white"
+                    }`}
+                >
+                    {loading ? "Generating..." : "Download PDF"}
+                </button>
             </div>
+        </div>
 
-            {/* MIDDLE CONTENT */}
-            <div className="w-3/5 p-8 z-10 overflow-y-auto">
+        <div className="w-full lg:w-3/5 p-4 lg:p-8 z-10 overflow-y-auto">
 
-                {activeTab === "roadmap" ? (
-                    <div>
-                        <h2 className="text-3xl font-bold mb-6 text-blue-600">
-                            Preparation Plan
-                        </h2>
+            {activeTab === "roadmap" ? (
+                <div>
+                    <h2 className="text-2xl lg:text-3xl font-bold mb-6 text-blue-600">
+                        Preparation Plan
+                    </h2>
 
-                        {data.preparationPlan.map((day, i) => (
-                            <div
-                                key={i}
-                                className="mb-4 p-5 rounded-xl bg-white border border-gray-200 shadow-sm"
-                            >
-                                <p className="text-blue-600 font-semibold">
-                                    Day {day.days} — {day.focus}
-                                </p>
-
-                                <ul className="mt-3 list-disc list-inside text-gray-600 text-sm">
-                                    {day.tasks.map((task, idx) => (
-                                        <li key={idx}>{task}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-2 gap-6">
-
-                        {/* QUESTIONS */}
-                        <div>
-                            <h2 className="text-xl mb-4 text-blue-600">
-                                Questions
-                            </h2>
-                            {renderList()}
-                        </div>
-
-                        {/* DETAILS */}
-                        <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-
-                            {selectedQuestion ? (
-                                <>
-                                    <h3 className="text-lg font-semibold mb-3">
-                                        {selectedQuestion.question}
-                                    </h3>
-
-                                    <p className="text-sm text-gray-500 mb-3">
-                                        💡 {selectedQuestion.intention}
-                                    </p>
-
-                                    <p className="text-sm text-green-600">
-                                        ✅ {selectedQuestion.answer}
-                                    </p>
-                                </>
-                            ) : (
-                                <p className="text-gray-400 text-sm">
-                                    Select a question to view details
-                                </p>
-                            )}
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            {/* RIGHT SIDEBAR */}
-            <div className="w-1/5 p-6 border-l border-gray-200 bg-white/60 backdrop-blur-md z-10">
-                <h2 className="text-xl font-bold mb-6 text-blue-600">
-                    AI Insights
-                </h2>
-
-                {/* SCORE */}
-                <div className="mb-6 p-5 rounded-xl bg-white border border-gray-200 shadow-sm">
-                    <p className="text-sm text-gray-500">Match Score</p>
-                    <p className="text-4xl font-bold text-blue-600">
-                        {data.matchScore}%
-                    </p>
-
-                    <div className="mt-3 h-2 bg-gray-200 rounded">
+                    {data.preparationPlan.map((day, i) => (
                         <div
-                            className="h-2 bg-blue-600 rounded"
-                            style={{ width: `${data.matchScore}%` }}
-                        ></div>
-                    </div>
-                </div>
+                            key={i}
+                            className="mb-4 p-4 lg:p-5 rounded-xl bg-white border border-gray-200 shadow-sm"
+                        >
+                            <p className="text-blue-600 font-semibold text-sm lg:text-base">
+                                Day {day.days} — {day.focus}
+                            </p>
 
-                {/* SKILLS */}
-                <div className="p-5 rounded-xl bg-white border border-gray-200 shadow-sm">
-                    <h3 className="text-sm text-gray-500 mb-3">Skill Gaps</h3>
-
-                    {data.skillGaps.map((s, i) => (
-                        <div key={i} className="flex justify-between mb-2 text-sm">
-                            <span>{s.skills}</span>
-                            <span
-                                className={
-                                    s.severity === "high"
-                                        ? "text-red-500"
-                                        : s.severity === "medium"
-                                        ? "text-yellow-500"
-                                        : "text-green-500"
-                                }
-                            >
-                                {s.severity}
-                            </span>
+                            <ul className="mt-3 list-disc list-inside text-gray-600 text-xs lg:text-sm">
+                                {day.tasks.map((task, idx) => (
+                                    <li key={idx}>{task}</li>
+                                ))}
+                            </ul>
                         </div>
                     ))}
                 </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <div>
+                        <h2 className="text-lg lg:text-xl mb-4 text-blue-600">
+                            Questions
+                        </h2>
+                        {renderList()}
+                    </div>
+
+                    <div className="bg-white p-4 lg:p-5 rounded-xl border border-gray-200 shadow-sm">
+                        {selectedQuestion ? (
+                            <>
+                                <h3 className="text-base lg:text-lg font-semibold mb-3">
+                                    {selectedQuestion.question}
+                                </h3>
+
+                                <p className="text-xs lg:text-sm text-gray-500 mb-3">
+                                    💡 {selectedQuestion.intention}
+                                </p>
+
+                                <p className="text-xs lg:text-sm text-green-600">
+                                    ✅ {selectedQuestion.answer}
+                                </p>
+                            </>
+                        ) : (
+                            <p className="text-gray-400 text-sm">
+                                Select a question to view details
+                            </p>
+                        )}
+                    </div>
+                </div>
+            )}
+        </div>
+
+        <div className="w-full lg:w-1/5 p-4 lg:p-6 border-t lg:border-t-0 lg:border-l border-gray-200 bg-white/60 backdrop-blur-md z-10">
+            <h2 className="text-lg lg:text-xl font-bold mb-4 lg:mb-6 text-blue-600">
+                AI Insights
+            </h2>
+
+            <div className="mb-6 p-4 lg:p-5 rounded-xl bg-white border border-gray-200 shadow-sm">
+                <p className="text-sm text-gray-500">Match Score</p>
+                <p className="text-3xl lg:text-4xl font-bold text-blue-600">
+                    {data.matchScore}%
+                </p>
+
+                <div className="mt-3 h-2 bg-gray-200 rounded">
+                    <div
+                        className="h-2 bg-blue-600 rounded"
+                        style={{ width: `${data.matchScore}%` }}
+                    ></div>
+                </div>
+            </div>
+
+            <div className="p-4 lg:p-5 rounded-xl bg-white border border-gray-200 shadow-sm">
+                <h3 className="text-sm text-gray-500 mb-3">Skill Gaps</h3>
+
+                {data.skillGaps.map((s, i) => (
+                    <div key={i} className="flex justify-between mb-2 text-sm">
+                        <span>{s.skills}</span>
+                        <span
+                            className={
+                                s.severity === "high"
+                                    ? "text-red-500"
+                                    : s.severity === "medium"
+                                    ? "text-yellow-500"
+                                    : "text-green-500"
+                            }
+                        >
+                            {s.severity}
+                        </span>
+                    </div>
+                ))}
             </div>
         </div>
+    </div>
     );
 };
 
